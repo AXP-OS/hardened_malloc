@@ -1203,7 +1203,8 @@ COLD static void handle_bugs(void) {
 
     // Pixel 3, Pixel 3 XL, Pixel 3a and Pixel 3a XL camera provider
     const char camera_provider[] = "/vendor/bin/hw/android.hardware.camera.provider@2.4-service_64";
-    if (strcmp(camera_provider, path) == 0) {
+    // Any camera executable on system partition
+    if (strcmp(camera_provider, path) == 0 || (strstr(path, "camera") != NULL && (strncmp("/system", path, 7) == 0 || strncmp("/vendor", path, 7) == 0 || strncmp("/apex", path, 5) == 0))) {
         ro.zero_on_free = false;
         ro.purge_slabs = false;
         ro.region_quarantine_protect = false;
