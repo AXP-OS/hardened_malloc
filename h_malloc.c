@@ -1209,6 +1209,15 @@ COLD static void handle_bugs(void) {
         ro.purge_slabs = false;
         ro.region_quarantine_protect = false;
     }
+
+    // OnePlus 8 & 9 display composer
+    // https://gitlab.com/divested-mobile/divestos-build/-/issues/19
+    const char hwc[] = "/vendor/bin/hw/vendor.qti.hardware.display.composer-service";
+    if (strcmp(hwc, path) == 0) {
+        ro.zero_on_free = false;
+        ro.purge_slabs = false;
+        ro.region_quarantine_protect = false;
+    }
 }
 
 static struct mutex init_lock = MUTEX_INITIALIZER;
