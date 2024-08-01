@@ -33,11 +33,6 @@ extern "C" {
 #define h_malloc_get_state malloc_get_state
 #define h_malloc_set_state malloc_set_state
 
-#define h_mallinfo_narenas mallinfo_narenas
-#define h_mallinfo_nbins mallinfo_nbins
-#define h_mallinfo_arena_info mallinfo_arena_info
-#define h_mallinfo_bin_info mallinfo_bin_info
-
 #define h_iterate iterate
 #define h_malloc_disable malloc_disable
 #define h_malloc_enable malloc_enable
@@ -91,10 +86,10 @@ int h_malloc_set_state(void *state);
 
 // Android extensions
 #ifdef __ANDROID__
-size_t h_mallinfo_narenas(void);
-size_t h_mallinfo_nbins(void);
-struct mallinfo h_mallinfo_arena_info(size_t arena);
-struct mallinfo h_mallinfo_bin_info(size_t arena, size_t bin);
+size_t __mallinfo_narenas(void);
+size_t __mallinfo_nbins(void);
+struct mallinfo __mallinfo_arena_info(size_t arena);
+struct mallinfo __mallinfo_bin_info(size_t arena, size_t bin);
 int h_iterate(uintptr_t base, size_t size, void (*callback)(uintptr_t ptr, size_t size, void *arg),
               void *arg);
 void h_malloc_disable(void);
