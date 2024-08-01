@@ -26,7 +26,7 @@ common_cflags = [
     "-DREGION_QUARANTINE_QUEUE_LENGTH=1024",
     "-DREGION_QUARANTINE_SKIP_THRESHOLD=33554432", // 32MiB
     "-DFREE_SLABS_QUARANTINE_RANDOM_LENGTH=32",
-    "-DCONFIG_CLASS_REGION_SIZE=34359738368", // 32GiB
+    "-DCONFIG_CLASS_REGION_SIZE=2147483648", // 32GiB
     "-DN_ARENA=1",
     "-DCONFIG_STATS=true",
     "-DCONFIG_SELF_INIT=false",
@@ -36,7 +36,7 @@ cc_defaults {
     name: "hardened_malloc_defaults",
     defaults: ["linux_bionic_supported"],
     cflags: common_cflags,
-    conlyflags: ["-std=c17", "-Wmissing-prototypes"],
+    conlyflags: ["-std=c11", "-Wmissing-prototypes"],
     stl: "none",
 }
 
@@ -51,9 +51,6 @@ lib_src_files = [
 
 cc_library {
     name: "libhardened_malloc",
-    ramdisk_available: true,
-    vendor_ramdisk_available: true,
-    recovery_available: true,
     defaults: ["hardened_malloc_defaults"],
     srcs: lib_src_files,
     export_include_dirs: ["include"],
@@ -63,21 +60,13 @@ cc_library {
             shared: {
                 enabled: false,
             },
-            system_shared_libs: [],
         },
         linux_bionic: {
-            system_shared_libs: [],
         },
     },
     product_variables: {
         debuggable: {
             cflags: ["-DLABEL_MEMORY"],
         },
-        device_has_arm_mte: {
-            cflags: ["-DHAS_ARM_MTE", "-march=armv9-a+memtag"]
-        },
     },
-    apex_available: [
-        "com.android.runtime",
-    ],
 }
